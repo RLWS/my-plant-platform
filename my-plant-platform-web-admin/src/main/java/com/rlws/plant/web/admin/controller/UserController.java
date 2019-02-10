@@ -23,6 +23,7 @@ public class UserController {
         return "test";
     }
 
+    //默认进入的页面
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String main() {
         return "test";
