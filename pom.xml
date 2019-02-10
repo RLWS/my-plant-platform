@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.rlws</groupId>
+    <artifactId>my-plant-platform</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>my-plant-platform-dependencies</module>
+        <module>my-plant-platform-commons</module>
+        <module>my-plant-platform-domain</module>
+        <module>my-plant-platform-web-admin</module>
+        <module>my-plant-platform-web-ui</module>
+        <module>my-plant-platform-web-api</module>
+    </modules>
+</project>

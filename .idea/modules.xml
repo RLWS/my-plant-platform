@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/my-plant-platform.iml" filepath="$PROJECT_DIR$/.idea/my-plant-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-plant-platform-commons/my-plant-platform-commons.iml" filepath="$PROJECT_DIR$/my-plant-platform-commons/my-plant-platform-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-plant-platform-dependencies/my-plant-platform-dependencies.iml" filepath="$PROJECT_DIR$/my-plant-platform-dependencies/my-plant-platform-dependencies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-plant-platform-domain/my-plant-platform-domain.iml" filepath="$PROJECT_DIR$/my-plant-platform-domain/my-plant-platform-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-plant-platform-web-admin/my-plant-platform-web-admin.iml" filepath="$PROJECT_DIR$/my-plant-platform-web-admin/my-plant-platform-web-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-plant-platform-web-api/my-plant-platform-web-api.iml" filepath="$PROJECT_DIR$/my-plant-platform-web-api/my-plant-platform-web-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my-plant-platform-web-ui/my-plant-platform-web-ui.iml" filepath="$PROJECT_DIR$/my-plant-platform-web-ui/my-plant-platform-web-ui.iml" />
+    </modules>
+  </component>
+</project>
