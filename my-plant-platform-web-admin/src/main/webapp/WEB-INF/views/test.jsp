@@ -13,8 +13,21 @@
 <body>
 <h2>启动成功</h2>
 <form action="/test" method="get">
-    <input type="text" name="email">
+    <input type="text" name="email" onclick="btn()">
     <button>提交</button>
 </form>
+
+<script type='text/javascript' src='static/js/jquery-1.8.3.min.js'></script>
+<script>
+
+    $.ajax({
+        url:'/test',
+        dataType:'json',
+        data:{email:'123@qq.com'},
+        success:function (response) {
+
+        }
+    })
+</script>
 </body>
 </html>
