@@ -13,7 +13,7 @@
 
     <!-- Mapper 扫描 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.rlws.plant.web.admin.mapper"/>
+        <property name="basePackage" value="com.rlws.plant.web.api.mapper"/>
     </bean>
 
 </beans>
