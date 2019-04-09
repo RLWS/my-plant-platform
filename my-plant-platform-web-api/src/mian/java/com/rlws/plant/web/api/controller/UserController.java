@@ -20,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     //注册用户提交信息判断用户邮箱是否已经注册ajax
-    @RequestMapping(value = "test",method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "test",method = RequestMethod.GET)
     public String selectByPrimaryKey(String email) {
         System.out.println(email);
         User user1 = userService.selectByPrimaryKey(email);
