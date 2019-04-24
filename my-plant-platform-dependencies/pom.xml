@@ -35,6 +35,7 @@
         <jackson.version>2.9.8</jackson.version>
         <mmseg4j.version>1.10.0</mmseg4j.version>
         <httpclient.version>4.5.6</httpclient.version>
+        <jedis.version>3.0.1</jedis.version>
     </properties>
 
     <dependencyManagement>
@@ -182,6 +183,15 @@
                 <version>${httpclient.version}</version>
             </dependency>
             <!-- httpClient -->
+
+            <!-- start jedis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+            <!-- end jedis -->
+
         </dependencies>
     </dependencyManagement>
 

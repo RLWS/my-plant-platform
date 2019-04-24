@@ -39,10 +39,14 @@ public class UserController {
     }
 
     //httpClientUtils测试
-    @RequestMapping(value = "rlws",method = RequestMethod.GET)
+    @RequestMapping(value = "rlws",method = RequestMethod.POST)
     public BaseResult myTest(String email){
-//        HttpclientUtils.get()
-        return null;
+        System.out.println("来了老铁!");
+        User user1 = userService.selectByPrimaryKey(email);
+        if (user1 != null){
+            return BaseResult.success("POST请求获取成功啦,哇咔咔",user1);
+        }
+        return BaseResult.fail();
     }
 
 }
