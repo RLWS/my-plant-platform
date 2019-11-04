@@ -8,7 +8,7 @@ import org.junit.Test;
 public class url {
     @Test
     public void doGet(){
-        String s = HttpclientUtils.get("http://127.0.0.1:8081/api/test?email=123@qq.com");
+        String s = HttpclientUtils.get("https://map.baidu.com/?qt=sub_area_list&areaname=兰州市&level=1&from=mapapi");
         System.out.println(s);
     }
 }
