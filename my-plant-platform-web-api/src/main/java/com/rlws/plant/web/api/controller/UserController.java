@@ -1,18 +1,20 @@
 package com.rlws.plant.web.api.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.rlws.plant.commons.dto.BaseResult;
-import com.rlws.plant.commons.utils.HttpclientUtils;
-import com.rlws.plant.commons.utils.MapperUtils;
+import com.rlws.plant.domain.Category;
+import com.rlws.plant.domain.Question;
 import com.rlws.plant.domain.User;
+import com.rlws.plant.web.api.service.CategoryService;
+import com.rlws.plant.web.api.service.QuestionService;
 import com.rlws.plant.web.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "${web.rest.url}")
@@ -20,6 +22,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     //注册用户提交信息判断用户邮箱是否已经注册ajax
     @RequestMapping(value = "test",method = RequestMethod.GET)
@@ -47,6 +55,27 @@ public class UserController {
             return BaseResult.success("POST请求获取成功啦,哇咔咔",user1);
         }
         return BaseResult.fail();
+    }
+
+    //首页初始化问题列表
+    @RequestMapping(value = {"index", ""}, method = RequestMethod.GET)
+    public BaseResult index(HttpServletRequest request) {
+        HashMap<String, Object> map = new HashMap<>();
+        //定义全局作用域的申请值
+        ServletContext application = request.getSession().getServletContext();
+        if (application.getAttribute("BestAnswerCount") == null)
+            application.setAttribute("BestAnswerCount", 99);
+        List<Question> questionDetails = questionService.selectNewTitle(6);
+        List<Question> questions = questionService.selectOneWeekLimitTitle(6);
+        List<Category> categories = categoryService.selectAllCategory(null);
+        //30tian
+        List<Question> questionsUrgent = questionService.selectUrgentQuestion(90);
+        map.put("questionsUrgent", questionsUrgent);
+        map.put("categories", categories);
+        map.put("questionDetails", questionDetails);
+        map.put("questions", questions);
+        System.out.println("test:::"+questionDetails);
+        return BaseResult.success("POST请求获取成功啦,哇咔咔",map);
     }
 
 }

@@ -1,31 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
-
+    <!-- META TAGS -->
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>植物问答平台-首页</title>
+    <title>植物问答平台-举报</title>
 
-    <link rel="shortcut icon" href="static/images/rlws.png"/>
+    <link rel="shortcut icon" href="images/rlws.png"/>
+
+    <!-- Style Sheet-->
     <link rel='stylesheet' id='bootstrap-css-css' href='static/css/bootstrap5152.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='responsive-css-css' href='static/css/responsive5152.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='main-css-css' href='static/css/main5152.css' type='text/css' media='all'/>
-    <!-- 滚动列表 -->
-    <link rel="stylesheet" href="static/css/newsbox/bootstrap-theme.min.css" type="text/css">
-    <style type="text/css">
-        .demo2>li{
-            line-height: 35px;
-        }
-        .demo2>li>h4{
-            display: inline;
-        }
-        .demo2>li>span{
-            float: right; margin-left: 20px;
-        }
-    </style>
+
 </head>
 
 <body>
@@ -49,11 +38,11 @@
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
                         <li><a href="/index">首页</a></li>
-                        <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">  发出提问</a></li>
+                        <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">发出提问</a></li>
                         <li><a href="/question_no_answer">等我回答</a></li>
                         <c:if test="${user == null}">
-                        <li><a href="/login">登录</a></li>
-                        <li><a href="/register">注册</a></li>
+                            <li><a href="/login">登录</a></li>
+                            <li><a href="/register">注册</a></li>
                         </c:if>
                         <c:if test="${user != null}">
                             <li><a href="/user">用户中心</a></li>
@@ -85,65 +74,55 @@
 </div>
 <!-- 查询信息结束 -->
 
-<!-- 中间内容开始 -->
-<div class="page-container"  id="mydiv" >
+<!-- Start of Page Container -->
+<div class="page-container">
     <div class="container">
         <div class="row">
-            <!-- 中间左边部分开始 -->
+
+            <!-- start of page content -->
             <div class="span8 page-content">
-                <%-- 紧急求助部分内容 --%>
-                <div class="row" style="text-align: center"><h3 style="margin: 0px;color: #e84646">紧急求助</h3></div>
-                <div class="row">
-                    <ul class="demo2">
-                        <c:forEach items="${questionsUrgent}" var="item">
-                            <li>
-                                <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                <span><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd"/></span>
-                                <span>类别：${item.category.content}</span>
-                                <span>作者：${item.user.username}</span>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-                <div class="row separator">
-                    <section class="span4 articles-list">
-                        <h3>近期热门</h3>
-                        <ul class="articles">
-                            <%-- 获取最近一周最热门(点赞最多的)6条新闻 --%>
-                            <c:forEach items="${questions}" var="item">
-                                <li class="article-entry standard">
-                                    <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                    <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
-                                        <a href="#" title="提问者">${item.user.username}</a>
-                                    </span>
-                                    <span class="like-count rl_title${item.id}" title="被收藏的次数">${item.praise}</span>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </section>
 
-                    <section class="span4 articles-list">
-                        <h3>最新提问</h3>
-                        <ul class="articles">
-                            <%-- 获取最新发布的6条新闻 --%>
-                            <c:forEach items="${questionDetails}" var="item">
-                                <li class="article-entry standard">
-                                    <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                    <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
-                                        <a href="#" title="提问者">${item.user.username}</a>
-                                    </span>
-                                    <i class="questionId" style="display:none;">${item.id}</i>
-                                    <span class="like-count rl_title${item.id}" title="被收藏的次数">${item.praise}</span>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </section>
+                <article class="type-page hentry clearfix">
+                    <h1 class="post-title">
+                        <a>您要举报的信息为:</a>
+                    </h1>
+                    <hr>
+                    <p><pre>${answer == null ? question.content : answer.content}</pre></p>
+                </article>
 
-                </div>
+                <form id="contact-form" class="row" action="user_report_manager" method="post">
+                    <input name="user_id" value="${user.id}" style="display: none">
+                    <input name="questionId" value="${answer == null ? question.id : null}" style="display: none">
+                    <input name="answerId" value="${answer != null ? answer.id : null}" style="display: none">
+                    <div class="span2">
+                        <label for="name">您的名字 <span>*</span> </label>
+                    </div>
+                    <div class="span6">
+                        <input type="text" id="name" class="required input-xlarge" value="${user.username}" disabled>
+                    </div>
+
+                    <div class="span2">
+                        <label for="email">您的邮箱 <span>*</span></label>
+                    </div>
+                    <div class="span6">
+                        <input type="text" id="email" class="email required input-xlarge" value="${user.email}" disabled>
+                    </div>
+
+                    <div class="span2">
+                        <label for="msg">举报说明 <span>*</span> </label>
+                    </div>
+                    <div class="span6">
+                        <textarea name="content" id="msg" class="required span6" rows="6"
+                                  title="请填写举报内容的具体说明"></textarea>
+                    </div>
+                    <div class="span6 offset2 bm30">
+                        <button type="submit" class="btn btn-success">举报</button>
+                    </div>
+
+                </form>
             </div>
-            <!-- 中间左边部分结束 -->
+            <!-- end of page content -->
+
 
             <!-- 中间右边部分开始 -->
             <aside class="span4 page-sidebar">
@@ -186,7 +165,7 @@
         </div>
     </div>
 </div>
-<!-- 中间内容结束 -->
+<!-- End of Page Container -->
 
 <!-- 底部开始 -->
 <footer id="footer-wrapper">
@@ -268,56 +247,20 @@
 
 <!-- script -->
 <script type='text/javascript' src='static/js/jquery-1.8.3.min.js'></script>
-<script type='text/javascript' src='static/js/jquery.easing.1.3.js'></script>
-<script type='text/javascript' src='static/js/jquery.liveSearch.js'></script>
-<script type='text/javascript' src='static/js/jquery.form.js'></script>
-<script type='text/javascript' src='static/js/jquery.validate.min.js'></script>
-<!-- 背景特效 -->
-<script type="text/javascript" src="static/js/particle/canvas-particle.js"></script>
-<!-- 滚动列表 -->
-<script type="text/javascript" src="static/js/newsbox/jquery.bootstrap.newsbox.min.js"></script>
+<script type='text/javascript' src='static/js/jquery.easing.1.34e44.js'></script>
+<script type='text/javascript' src='static/js/jquery.liveSearchd5f7.js'></script>
+<script type='text/javascript' src='static/js/jquery.formd471.js'></script>
+<script type='text/javascript' src='static/js/jquery.validate.minfc6b.js'></script>
 <script>
-    window.onload = function() {
-        //配置
-        var config = {
-            vx: 4,	//小球x轴速度,正为右，负为左
-            vy: 4,	//小球y轴速度
-            height: 2,	//小球高宽，其实为正方形，所以不宜太大
-            width: 2,
-            count: 200,		//点个数
-            color: "121, 162, 185", 	//点颜色
-            stroke: "79, 176, 132", 		//线条颜色
-            dist: 6000, 	//点吸附距离
-            e_dist: 20000, 	//鼠标吸附加速距离
-            max_conn: 10 	//点到点最大连接数
-        }
-        //调用
-        CanvasParticle(config);
-    }
     $(function () {
-        $(".demo2").bootstrapNews({
-            newsPerPage: 5,
-            autoplay: true,
-            pauseOnHover: true,
-            navigation: false,
-            direction: 'down',
-            newsTickerInterval: 2500,
-            onToDo: function () {
-                //console.log(this);
+        var message = "${message == null ? "" : message}";
+        if (message != ""){
+            if (confirm("举报成功！是否立刻返回首页？")){
+                window.location.href="index";
             }
-        });
-        $(".demo2").css("height","auto");
-        /*  将首页中的后退按钮禁用，避免退出登录后还可以返回上一个页面 */
-        if (window.history && window.history.pushState){
-            $(window).on('popstate',function () {
-                window.history.pushState('forward',null,'#');
-                window.history.forward(1);
-            });
-            window.history.pushState('forword',null,'#');
-            window.history.forward(1);
         }
     })
 </script>
-
 </body>
 </html>
+

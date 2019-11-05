@@ -3,29 +3,20 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <head>
-
+    <!-- META TAGS -->
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>植物问答平台-首页</title>
+    <title>植物问答平台-查询结果</title>
 
     <link rel="shortcut icon" href="static/images/rlws.png"/>
+
+
+    <!-- Style Sheet-->
     <link rel='stylesheet' id='bootstrap-css-css' href='static/css/bootstrap5152.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='responsive-css-css' href='static/css/responsive5152.css' type='text/css' media='all'/>
     <link rel='stylesheet' id='main-css-css' href='static/css/main5152.css' type='text/css' media='all'/>
-    <!-- 滚动列表 -->
-    <link rel="stylesheet" href="static/css/newsbox/bootstrap-theme.min.css" type="text/css">
-    <style type="text/css">
-        .demo2>li{
-            line-height: 35px;
-        }
-        .demo2>li>h4{
-            display: inline;
-        }
-        .demo2>li>span{
-            float: right; margin-left: 20px;
-        }
-    </style>
+    <link rel='stylesheet' id='answer-css-css' href='static/css/query-result.css' type='text/css' media='all'/>
 </head>
 
 <body>
@@ -49,11 +40,11 @@
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
                         <li><a href="/index">首页</a></li>
-                        <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">  发出提问</a></li>
+                        <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">发出提问</a></li>
                         <li><a href="/question_no_answer">等我回答</a></li>
                         <c:if test="${user == null}">
-                        <li><a href="/login">登录</a></li>
-                        <li><a href="/register">注册</a></li>
+                            <li><a href="/login">登录</a></li>
+                            <li><a href="/register">注册</a></li>
                         </c:if>
                         <c:if test="${user != null}">
                             <li><a href="/user">用户中心</a></li>
@@ -86,61 +77,23 @@
 <!-- 查询信息结束 -->
 
 <!-- 中间内容开始 -->
-<div class="page-container"  id="mydiv" >
+<div class="page-container">
     <div class="container">
         <div class="row">
             <!-- 中间左边部分开始 -->
             <div class="span8 page-content">
-                <%-- 紧急求助部分内容 --%>
-                <div class="row" style="text-align: center"><h3 style="margin: 0px;color: #e84646">紧急求助</h3></div>
-                <div class="row">
-                    <ul class="demo2">
-                        <c:forEach items="${questionsUrgent}" var="item">
-                            <li>
-                                <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                <span><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd"/></span>
-                                <span>类别：${item.category.content}</span>
-                                <span>作者：${item.user.username}</span>
-                            </li>
-                        </c:forEach>
+                <div style="text-align: center"><button id="btn" class="btn btn-success">点击与该用户进行联系!</button></div>
+                <div class="row separator  top-cats">
+                    <div id="queBody">
+                    </div>
+                    <ul class="pager">
+                        <li><a id="first" style="cursor: pointer">首页</a></li>
+                        <li><a id="prev" style="cursor: pointer">上一页</a></li>
+                        <li><a id="current">当前页:1</a></li>
+                        <li><a id="next" style="cursor: pointer">下一页</a></li>
+                        <li><a id="end" style="cursor: pointer">尾页</a></li>
+                        <li><a id="all_count">总页数:${page_count}</a></li>
                     </ul>
-                </div>
-                <div class="row separator">
-                    <section class="span4 articles-list">
-                        <h3>近期热门</h3>
-                        <ul class="articles">
-                            <%-- 获取最近一周最热门(点赞最多的)6条新闻 --%>
-                            <c:forEach items="${questions}" var="item">
-                                <li class="article-entry standard">
-                                    <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                    <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
-                                        <a href="#" title="提问者">${item.user.username}</a>
-                                    </span>
-                                    <span class="like-count rl_title${item.id}" title="被收藏的次数">${item.praise}</span>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </section>
-
-                    <section class="span4 articles-list">
-                        <h3>最新提问</h3>
-                        <ul class="articles">
-                            <%-- 获取最新发布的6条新闻 --%>
-                            <c:forEach items="${questionDetails}" var="item">
-                                <li class="article-entry standard">
-                                    <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                    <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
-                                        <a href="#" title="提问者">${item.user.username}</a>
-                                    </span>
-                                    <i class="questionId" style="display:none;">${item.id}</i>
-                                    <span class="like-count rl_title${item.id}" title="被收藏的次数">${item.praise}</span>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </section>
-
                 </div>
             </div>
             <!-- 中间左边部分结束 -->
@@ -272,52 +225,99 @@
 <script type='text/javascript' src='static/js/jquery.liveSearch.js'></script>
 <script type='text/javascript' src='static/js/jquery.form.js'></script>
 <script type='text/javascript' src='static/js/jquery.validate.min.js'></script>
-<!-- 背景特效 -->
-<script type="text/javascript" src="static/js/particle/canvas-particle.js"></script>
-<!-- 滚动列表 -->
-<script type="text/javascript" src="static/js/newsbox/jquery.bootstrap.newsbox.min.js"></script>
-<script>
-    window.onload = function() {
-        //配置
-        var config = {
-            vx: 4,	//小球x轴速度,正为右，负为左
-            vy: 4,	//小球y轴速度
-            height: 2,	//小球高宽，其实为正方形，所以不宜太大
-            width: 2,
-            count: 200,		//点个数
-            color: "121, 162, 185", 	//点颜色
-            stroke: "79, 176, 132", 		//线条颜色
-            dist: 6000, 	//点吸附距离
-            e_dist: 20000, 	//鼠标吸附加速距离
-            max_conn: 10 	//点到点最大连接数
-        }
-        //调用
-        CanvasParticle(config);
-    }
+<script type="text/javascript">
     $(function () {
-        $(".demo2").bootstrapNews({
-            newsPerPage: 5,
-            autoplay: true,
-            pauseOnHover: true,
-            navigation: false,
-            direction: 'down',
-            newsTickerInterval: 2500,
-            onToDo: function () {
-                //console.log(this);
+        /* 初始化当前页面和尾页(分页) */
+        var page_current_context = 1;
+        var page_end_context = ${page_count == null ? 1 : page_count};
+        myAjax(1,7);
+        /* 点击时获取我发布过的所有问题 */
+        $("#myQuestion").click(function () {
+            myAjax(1,7);
+        })
+
+        /* 点击下一页 */
+        $("#next").click(function () {
+            if (page_current_context < page_end_context){
+                page_current_context ++;
+                myAjax(page_current_context,7)
+            } else {
+                alert("已经是最后一页了")
             }
-        });
-        $(".demo2").css("height","auto");
-        /*  将首页中的后退按钮禁用，避免退出登录后还可以返回上一个页面 */
-        if (window.history && window.history.pushState){
-            $(window).on('popstate',function () {
-                window.history.pushState('forward',null,'#');
-                window.history.forward(1);
-            });
-            window.history.pushState('forword',null,'#');
-            window.history.forward(1);
+        })
+        /* 点击上一页 */
+        $("#prev").click(function () {
+            if (page_current_context == 1){
+                alert("已经是最前一页了")
+            } else {
+                page_current_context --;
+                myAjax(page_current_context,7)
+            }
+        })
+
+        /* 返回首页 */
+        $("#first").click(function () {
+            page_current_context = 1;
+            myAjax(page_current_context,7);
+        })
+
+        /* 前往尾页 */
+        $("#end").click(function () {
+            page_current_context = page_end_context;
+            myAjax(page_current_context,7);
+        })
+
+        /* Ajax包装方法 */
+        function myAjax(page_current,page_size) {
+            $.ajax(
+                {
+                    type:'get',
+                    url:'user_all_question',
+                    dataType:'json',
+                    data:{
+                        "user_id":${userId},
+                        "page_current":page_current,
+                        "page_size":page_size
+                    },
+                    success:function (data) {
+                        var last=JSON.stringify(data);
+                        var json = JSON.parse(last);
+                        var question = json.questions;
+                        var pageVo = json.pageVo;
+                        console.log(json);
+                        $("#queBody").empty();
+                        for (i in question){
+                            $("#queBody").append('<section class="span8">' +
+                                '                   <h4 class="category"><a href="/title_go_details?id='+question[i].id+'">'+question[i].title+'</a></h4>' +
+                                '                      <div class=" rlws-like">' +
+                                '                         <span class="article-meta">' +question[i].time+
+                                '                            </span>' +
+                                '                                类型:<a href="single.html">'+question[i].category.content+'</a>' +
+                                '                                提问者:<a href="#"><b style="color: #fd8e3d">'+question[i].user.username+'</b></a>' +
+                                '                            </span>\n' +
+                                '                            <span class="like-count" style="cursor: pointer">'+question[i].praise+'</span>' +
+                                '                       </div>' +
+                                '                       <div class="category-description">' +
+                                '                             <p style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;">' +
+                                question[i].content +
+                                '                             </p>' +
+                                '                        </div>' +
+                                '                  </section>')
+                        }
+                        page_end_context = Math.ceil(pageVo.page_count/pageVo.page_size);
+                        $("#all_count").html("总页数:"+page_end_context);
+                        $("#current").html("当前页:"+pageVo.page_current);
+                    }
+                }
+            )
+        }
+    })
+
+    $("#btn").click(function () {
+        if (confirm("将会前往'我的消息'页面,是否立刻前往?")){
+            window.location.href='user_to_message?id=${userId}&username=${username}';
         }
     })
 </script>
-
 </body>
 </html>

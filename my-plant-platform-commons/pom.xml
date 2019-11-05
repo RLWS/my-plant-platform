@@ -31,6 +31,14 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
+        <!-- mmseg4J start-->
+        <dependency>
+            <groupId>com.chenlb.mmseg4j</groupId>
+            <artifactId>mmseg4j-core</artifactId>
+            <version>${mmseg4j.version}</version>
+        </dependency>
+
+        <!-- mmseg4J end-->
     </dependencies>
 
 </project>
