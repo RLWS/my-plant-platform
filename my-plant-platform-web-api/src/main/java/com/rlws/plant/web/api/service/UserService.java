@@ -7,4 +7,8 @@ public interface UserService {
     //查询一条User信息 -->
     User selectByPrimaryKey(String email);
 
+    default String sayHello() {
+        return "hello,kity!";
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.rlws.api;
 
+import com.rlws.plant.web.api.service.UserService;
+import com.rlws.plant.web.api.service.impl.UserServiceImpl;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -72,4 +74,11 @@ public class HttpClientTest {
         //关闭客户端
         httpClient.close();
     }
+
+    @Test
+    public void test(){
+        UserServiceImpl userService = new UserServiceImpl();
+        System.out.println(userService.sayHello());
+    }
+
 }

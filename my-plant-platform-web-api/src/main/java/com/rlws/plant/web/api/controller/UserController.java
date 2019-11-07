@@ -77,5 +77,4 @@ public class UserController {
         System.out.println("test:::"+questionDetails);
         return BaseResult.success("POST请求获取成功啦,哇咔咔",map);
     }
-
 }
