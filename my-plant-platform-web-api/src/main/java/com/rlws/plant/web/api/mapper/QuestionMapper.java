@@ -2,7 +2,6 @@ package com.rlws.plant.web.api.mapper;
 
 import com.rlws.plant.domain.PageVo;
 import com.rlws.plant.domain.Question;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public interface QuestionMapper {
     List<Question> selectQuestionByBlurryTitle(List<String> list);
 
     //根据Title模糊查询Question集合Ajax
-    List<Question> selectQuestionByBlurryTitleAjax(@Param("pageVo") PageVo pageVo);
+    List<Question> selectQuestionByBlurryTitleAjax(PageVo pageVo);
 
     //根据user.id查询一个Question集合
     List<Question> selectQuestionByUserId(PageVo pageVo);

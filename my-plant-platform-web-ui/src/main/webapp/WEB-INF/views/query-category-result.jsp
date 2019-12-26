@@ -36,15 +36,15 @@
             <nav class="main-nav">
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
-                        <li><a href="/index">首页</a></li>
+                        <li><a href="index">首页</a></li>
                         <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">发出提问</a></li>
-                        <li><a href="/question_no_answer">等我回答</a></li>
+                        <li><a href="question_no_answer">等我回答</a></li>
                         <c:if test="${user == null}">
-                            <li><a href="/login">登录</a></li>
-                            <li><a href="/register">注册</a></li>
+                            <li><a href="login">登录</a></li>
+                            <li><a href="register">注册</a></li>
                         </c:if>
                         <c:if test="${user != null}">
-                            <li><a href="/user">用户中心</a></li>
+                            <li><a href="user">用户中心</a></li>
                         </c:if>
                         <li><a style="cursor: pointer" onclick="${user.power==2?"location.href='user_talent'":"alert('您还不是达人用户，请加倍努力哦！')"}">达人中心</a></li>
                         <li><a href="more_recommendation">更多推荐</a></li>
@@ -83,9 +83,11 @@
                     <div id="queBody">
                     <c:forEach items="${questions}" var="item" end="6">
                         <section class="span8">
-                            <h4 class="category"><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
+                            <h4 class="category"><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
                             <div class=" rlws-like">
-                            <span class="article-meta"><fmt:formatDate  pattern="yyyy-MM-dd HH:mm:ss" value="${item.time}"/>
+                            <span class="article-meta">
+                                ${item.time}
+                                <%--<fmt:formatDate  pattern="yyyy-MM-dd HH:mm:ss" value="${item.time}"/>--%>
                             </span>
                                 类型:<a href="single.html">${item.category.content}</a>
                                 提问者:<a href="#">${item.user.username}</a>
@@ -131,10 +133,10 @@
                     <div class="quick-links-widget">
                         <h3 class="title">快速链接</h3>
                         <ul id="menu-quick-links" class="menu clearfix">
-                            <li><a href="/index" >首页</a></li>
-                            <li><a style="cursor: pointer" ${user==null?"onclick=\"alert('您还未登录!')\"":"href='/user'"}>用户中心</a></li>
-                            <li><a href="/login">登录</a></li>
-                            <li><a href="/register">注册</a></li>
+                            <li><a href="index" >首页</a></li>
+                            <li><a style="cursor: pointer" ${user==null?"onclick=\"alert('您还未登录!')\"":"href='user'"}>用户中心</a></li>
+                            <li><a href="login">登录</a></li>
+                            <li><a href="register">注册</a></li>
                         </ul>
                     </div>
                 </section>
@@ -282,7 +284,7 @@
             $.ajax(
                 {
                     type:'get',
-                    url:'/get_list_category_question_ajax',
+                    url:'ajax/get_list_category_question_ajax',
                     dataType:'json',
                     data:{
                         "category_id":${category_id==null?1:category_id},

@@ -13,7 +13,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 @Controller
-public class UserController {
+public class AdminController {
 
     @Autowired
     private UserService userService;

@@ -38,15 +38,15 @@
             <nav class="main-nav">
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
-                        <li><a href="/index">首页</a></li>
+                        <li><a href="index">首页</a></li>
                         <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">发出提问</a></li>
-                        <li><a href="/question_no_answer">等我回答</a></li>
+                        <li><a href="question_no_answer">等我回答</a></li>
                         <c:if test="${user == null}">
-                            <li><a href="/login">登录</a></li>
-                            <li><a href="/register">注册</a></li>
+                            <li><a href="login">登录</a></li>
+                            <li><a href="register">注册</a></li>
                         </c:if>
                         <c:if test="${user != null}">
-                            <li><a href="/user">用户中心</a></li>
+                            <li><a href="user">用户中心</a></li>
                         </c:if>
                         <li><a style="cursor: pointer" onclick="${user.power==2?"location.href='user_talent'":"alert('您还不是达人用户，请加倍努力哦！')"}">达人中心</a></li>
                         <li><a href="more_recommendation">更多推荐</a></li>
@@ -89,10 +89,10 @@
 
                     <div class="post-meta clearfix">
                         <span class="date">
-                            <fmt:formatDate value="${question.time}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                            ${question.time}
                         </span>
                         <span class="author" title="点击可查看提问者的发布的问题哦">
-                            <a ${user.username == question.user.username ? "onclick=\"alert('您不能够在此查看你的问题发布记录!');return false;\"":''} href="/to_user_all_history_question?id=${question.user.id}&username=${question.user.username}" id="author">${question.user.username}</a>
+                            <a ${user.username == question.user.username ? "onclick=\"alert('您不能够在此查看你的问题发布记录!');return false;\"":''} href="to_user_all_history_question?id=${question.user.id}&username=${question.user.username}" id="author">${question.user.username}</a>
                         </span>
                         <span class="category">
                             <a href="to_category_result?category_id=${question.category.id}" title="点击可查找该类话题">${question.category.content}</a>
@@ -103,7 +103,7 @@
                         <i class="questionId" style="display:none;">${question.id}</i>
                         <span class="like-count" style="cursor: pointer" title="点击进行收藏" id="shoucang">${question.praise}</span>
                         <span class="jub">
-                            <a href="/user_report?question_id=${question.id}" class="jubao" >举报</a>
+                            <a href="user_report?question_id=${question.id}" class="jubao" >举报</a>
                         </span>
                         <span class="jub" style="position: relative">
                             <a id="share" style="cursor: pointer">分享</a>
@@ -123,7 +123,7 @@
                     <input type="text" id="answer_user_id" name="answer_user_id" value="${user == null ?"" : user.id}"
                            style="display: none;">
                     <input type="text" id="question_id" name="question_id" value="${question.id}" style="display: none">
-                    <a class="btn btn-success" href="/login"  ${user != null ? "style='display: none'":""}
+                    <a class="btn btn-success" href="login"  ${user != null ? "style='display: none'":""}
                        title="还没登录?点击前往登录">前往登录</a>
                     <button type="button" id="submit"
                             class="btn btn-success" ${user == null ? "style='display: none'":""} ${question.user.id == user.id ? "disabled" : ""} >提交回答
@@ -142,10 +142,9 @@
                     <article class="hentry">
                         <div class="post-meta clearfix rlws-answer" style="background: #ded3a9;">
                             <span class="author">${optimal.user.username}</span>
-                            <span class="date"><fmt:formatDate value="${optimal.time}"
-                                                               pattern="yyyy-MM-dd HH:mm:ss"/></span>
+                            <span class="date">${optimal.time}</span>
                             <span class="like-count">${optimal.praise}</span>
-                            <span class="jub"><a href="/user_report?answer_id=${optimal.id}">举报</a></span>
+                            <span class="jub"><a href="user_report?answer_id=${optimal.id}">举报</a></span>
                             <p id="answer_${optimal.id}">${optimal.content}</p>
                         </div>
                     </article>
@@ -157,22 +156,20 @@
                     <article class="hentry">
                         <div class="post-meta clearfix rlws-answer" style="margin-bottom: 0px">
                             <span class="author">${item.user.username}</span>
-                            <span class="date"><fmt:formatDate value="${item.time}"
-                                                               pattern="yyyy-MM-dd HH:mm:ss"/></span>
+                            <span class="date">${item.time}</span>
                             <span class="like-count" id="answer_${item.id}" style="cursor: pointer" title="点赞该回答" onclick="praiseAnswer(${item.id},${item.praise})">${item.praise}</span>
                             <span class="jub">
                                 <i style="display: none">${item.id}</i>
                                 <a class="replay" style="cursor: pointer" data-toggle="modal"
                                    data-target="#myModal">评论</a>
                             </span>
-                            <span class="jub"><a class="jubao" href="/user_report?answer_id=${item.id}">举报</a></span>
+                            <span class="jub"><a class="jubao" href="user_report?answer_id=${item.id}">举报</a></span>
                             <p id="questionAnswer_${item.id}">${item.content}</p>
                                 <%-- 遍历该回答的回复 --%>
                             <c:forEach items="${item.replyList}" var="repItem">
                                 <div class="post-meta clearfix rlws-post" style="margin-bottom: 5px">
                                     <span class="author">${repItem.user.username}</span>
-                                    <span class="date"><fmt:formatDate value="${repItem.time}"
-                                                                       pattern="yyyy-MM-dd HH:mm:ss"/></span>
+                                    <span class="date">${repItem.time}</span>
                                     <p style="margin-bottom: 0;">${repItem.content}</p>
                                 </div>
                             </c:forEach>
@@ -189,9 +186,10 @@
                         <%-- 获取最近一周最热门(点赞最多的)6条新闻 --%>
                         <c:forEach items="${questions}" var="item">
                             <li class="article-entry standard">
-                                <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
+                                <h4><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
                                 <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
+                                        ${item.time}
+                                        <%--<fmt:formatDate value="${item.time}"/>--%>
                                         <a href="#" title="提问者">${item.user.username}</a>
                                     </span>
                                 <span class="like-count rl_title${item.id}" title="被收藏的次数">${item.praise}</span>

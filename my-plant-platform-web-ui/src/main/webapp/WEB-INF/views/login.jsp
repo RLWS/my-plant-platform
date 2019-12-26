@@ -35,7 +35,7 @@
             <nav class="main-nav">
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
-                        <li><a href="/index">返回首页</a></li>
+                        <li><a href="index">返回首页</a></li>
                         <li><a href="#3d">欢迎您的登录</a></li>
                     </ul>
                 </div>
@@ -53,7 +53,7 @@
         <div class="span3"></div>
         <div class="span6 login">
             <h3 class="search-header">登 录</h3>
-            <form id="search-form" class="search-form clearfix" method="post" action="login" role="form">
+            <form id="search-form" class="search-form clearfix" method="post" action="userLogin" role="form">
                 <input class="search-term required" type="email" id="email" name="email" placeholder="请输入用户名"
                        title="请输入用户名!"/>
                 <p></p>
@@ -68,7 +68,7 @@
                 <p></p>
                 <button id="submit" type="submit" class="btn btn-large btn-primary submit" title="点击进行登录!">点击进行登录
                 </button>
-                <a class="btn btn-large btn-primary submit" title="没有账号?点击进行注册!" href="/register">点击开始注册</a>
+                <a class="btn btn-large btn-primary submit" title="没有账号?点击进行注册!" href="register">点击开始注册</a>
                 <p></p>
                 <div id="search-error-container" style="color: red"><c:if test="${login != null}">${login}</c:if></div>
             </form>

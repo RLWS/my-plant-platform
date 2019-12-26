@@ -48,15 +48,15 @@
             <nav class="main-nav">
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
-                        <li><a href="/index">首页</a></li>
+                        <li><a href="index">首页</a></li>
                         <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">  发出提问</a></li>
-                        <li><a href="/question_no_answer">等我回答</a></li>
+                        <li><a href="question_no_answer">等我回答</a></li>
                         <c:if test="${user == null}">
-                        <li><a href="/login">登录</a></li>
-                        <li><a href="/register">注册</a></li>
+                        <li><a href="login">登录</a></li>
+                        <li><a href="register">注册</a></li>
                         </c:if>
                         <c:if test="${user != null}">
-                            <li><a href="/user">用户中心</a></li>
+                            <li><a href="user">用户中心</a></li>
                         </c:if>
                         <li><a style="cursor: pointer" onclick="${user.power==2?"location.href='user_talent'":"alert('您还不是达人用户，请加倍努力哦！')"}">达人中心</a></li>
                         <li><a href="more_recommendation">更多推荐</a></li>
@@ -97,8 +97,8 @@
                     <ul class="demo2">
                         <c:forEach items="${questionsUrgent}" var="item">
                             <li>
-                                <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                <span><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd"/></span>
+                                <h4><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
+                                <span>${item.time}</span>
                                 <span>类别：${item.category.content}</span>
                                 <span>作者：${item.user.username}</span>
                             </li>
@@ -112,9 +112,9 @@
                             <%-- 获取最近一周最热门(点赞最多的)6条新闻 --%>
                             <c:forEach items="${questions}" var="item">
                                 <li class="article-entry standard">
-                                    <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
+                                    <h4><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
                                     <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
+                                        ${item.time}
                                         <a href="#" title="提问者">${item.user.username}</a>
                                     </span>
                                     <span class="like-count rl_title${item.id}" title="被收藏的次数">${item.praise}</span>
@@ -129,9 +129,9 @@
                             <%-- 获取最新发布的6条新闻 --%>
                             <c:forEach items="${questionDetails}" var="item">
                                 <li class="article-entry standard">
-                                    <h4><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
+                                    <h4><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
                                     <span class="article-meta">
-                                        <fmt:formatDate value="${item.time}"/>
+                                        ${item.time}
                                         <a href="#" title="提问者">${item.user.username}</a>
                                     </span>
                                     <i class="questionId" style="display:none;">${item.id}</i>
@@ -164,10 +164,10 @@
                     <div class="quick-links-widget">
                         <h3 class="title">快速链接</h3>
                         <ul id="menu-quick-links" class="menu clearfix">
-                            <li><a href="/index" >首页</a></li>
-                            <li><a style="cursor: pointer" ${user==null?"onclick=\"alert('您还未登录!')\"":"href='/user'"}>用户中心</a></li>
-                            <li><a href="/login">登录</a></li>
-                            <li><a href="/register">注册</a></li>
+                            <li><a href="index" >首页</a></li>
+                            <li><a style="cursor: pointer" ${user==null?"onclick=\"alert('您还未登录!')\"":"href='user'"}>用户中心</a></li>
+                            <li><a href="login">登录</a></li>
+                            <li><a href="register">注册</a></li>
                         </ul>
                     </div>
                 </section>

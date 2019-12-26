@@ -17,7 +17,10 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
 
 public class HttpClientTest {
 
@@ -77,8 +80,19 @@ public class HttpClientTest {
 
     @Test
     public void test(){
-        UserServiceImpl userService = new UserServiceImpl();
-        System.out.println(userService.sayHello());
+        ArrayList<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0 ; i< 30 ;i ++){
+            int rd = random.nextInt(100);
+            list.add(rd);
+        }
+        list.forEach(e ->{
+            System.out.println(e);
+        });
+        new Thread(()->{
+            System.out.println("匿名内部类!");
+        }).start();
+        list.stream().map(x -> x + x * 0.5).forEach(x -> System.out.println(x));
     }
 
 }

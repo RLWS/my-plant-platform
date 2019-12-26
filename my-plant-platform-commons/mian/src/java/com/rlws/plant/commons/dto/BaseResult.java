@@ -71,15 +71,6 @@ public class BaseResult implements Serializable {
     }
 
     /**
-     * 成功
-     * @param message   返回信息
-     * @return
-     */
-    public static BaseResult success(String message) {
-        return BaseResult.createResult(STATUS_SUCCESS, message);
-    }
-
-    /**
      * 失败(默认返回信息)
      * @return
      */

@@ -57,7 +57,7 @@
         <div class="span3"></div>
         <div class="span6 login">
             <h3 class="search-header">用 户 注 册</h3>
-            <form id="search-form" class="search-form clearfix" method="post" action="/register">
+            <form id="search-form" class="search-form clearfix" method="post" action="userRegister">
                 <input class="search-term required" id="username" type="text" name="username" placeholder="请输入用户名" title="请输入用户名!" maxlength="12" onkeydown="if(event.keyCode==32){return false;}"/>
                 <p></p>
                 <input class="search-term required" id="email" type="email" name="email" placeholder="请输入您的邮箱"
@@ -167,7 +167,7 @@
         $("#email").blur(function () {
             $.ajax({
                 type:"get",
-                url:"register_email_ajax",
+                url:"ajax/register_email_ajax",
                 dataType:"json",
                 data:{"email":$("#email").val()},
                 success:function (data) {

@@ -29,7 +29,7 @@
     </update>
 
     <!-- 获取所有的植物类别Ajax -->
-    <select id="selectLimitCategory" parameterType="PageVo" resultType="Category">
+    <select id="selectLimitCategory" parameterType="PageVo" resultType="com.rlws.plant.domain.Category">
         select * from category limit #{page_start},#{page_size}
     </select>
 </mapper>

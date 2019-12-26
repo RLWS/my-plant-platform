@@ -69,6 +69,7 @@
         WHERE
         question.user_id = user.id
         AND question.category_id = category.id
+        AND DATE_SUB(CURDATE(), INTERVAL 90 DAY) &lt;= DATE(TIME)
         ORDER BY praise
         DESC LIMIT #{num}
     </select>
