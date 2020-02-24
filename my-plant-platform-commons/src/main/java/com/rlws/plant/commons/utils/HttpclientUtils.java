@@ -1,6 +1,5 @@
 package com.rlws.plant.commons.utils;
 
-import com.rlws.plant.commons.dto.BaseResult;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -17,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author RLWS_5871
+ */
 public class HttpclientUtils {
 
     private static final String GET = "get";
@@ -98,14 +100,13 @@ public class HttpclientUtils {
      * @param cookie  请求cookie
      * @param map     请求参数
      * @return 返回的数据
-     * @throws IOException
      */
     private static String createHttpCline(String request, String url, String cookie, Map<String, String> map) {
         String data = "";
         try {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpGet httpGet = null;
-            HttpPost httpPost = null;
+            HttpGet httpGet;
+            HttpPost httpPost;
             CloseableHttpResponse execute = null;
 
             //get请求
@@ -126,7 +127,7 @@ public class HttpclientUtils {
                 //填入参数
                 List prams = null;
                 if (map != null) {
-                    prams = new ArrayList<NameValuePair>();
+                    prams = new ArrayList<NameValuePair>(10);
                     Set<String> keys = map.keySet();
                     for (String key : keys) {
                         prams.add(new BasicNameValuePair(key, map.get(key)));
@@ -142,7 +143,6 @@ public class HttpclientUtils {
             return data;
         } catch (IOException e) {
             e.printStackTrace();
-
         }
         return data;
     }

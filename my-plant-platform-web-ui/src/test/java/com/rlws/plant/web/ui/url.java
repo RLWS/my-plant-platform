@@ -1,7 +1,5 @@
 package com.rlws.plant.web.ui;
 
-import com.alibaba.fastjson.JSON;
-import com.rlws.plant.commons.dto.BaseResult;
 import com.rlws.plant.commons.utils.HttpclientUtils;
 import org.junit.Test;
 

@@ -1,7 +1,5 @@
 package com.rlws.api;
 
-import com.rlws.plant.web.api.service.UserService;
-import com.rlws.plant.web.api.service.impl.UserServiceImpl;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,12 +13,11 @@ import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 public class HttpClientTest {
 

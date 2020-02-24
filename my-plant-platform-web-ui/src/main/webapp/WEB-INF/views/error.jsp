@@ -5,6 +5,6 @@
 </head>
 <body>
     系统错误,<<a href="/index">点击返回首页</a>
-    <h3>${exception.message}</h3>
+    <h3>${message}</h3>
 </body>
 </html>

@@ -2,9 +2,16 @@ package com.rlws.plant.commons.dto;
 
 import java.io.Serializable;
 
+/**
+ * @author RLWS_5871
+ */
 public class BaseResult implements Serializable {
+
+    private static final long serialVersionUID = -3038731253980377768L;
+
     public static final int STATUS_SUCCESS = 200;
     public static final int STATUS_FAIL = 500;
+
 
     private int status;
     private String message;

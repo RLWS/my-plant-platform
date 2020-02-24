@@ -50,30 +50,31 @@ public final class Mmseg4jUtils {
 
     /* 去除非中文 */
     public static String clearNotChinese(String buff) {
-
-        String tmpString = buff.replaceAll("(?i)[^a-zA-Z0-9\u4E00-\u9FA5]", "");//去掉所有中英文符号
+        //去掉所有中英文符号
+        String tmpString = buff.replaceAll("(?i)[^a-zA-Z0-9\u4E00-\u9FA5]", "");
         char[] carr = tmpString.toCharArray();
         for (int i = 0; i < tmpString.length(); i++) {
             if (carr[i] < 0xFF) {
-                carr[i] = ' ';//过滤掉非汉字内容
+                //过滤掉非汉字内容
+                carr[i] = ' ';
             }
         }
         return String.copyValueOf(carr).trim();
     }
 
     /* 实现关键字标记List */
-    public static String titleConversion(String title , List<String> list){
-        for (String str:list) {
-            String name = "<b style=\"color: #fd8e3d\">"+ str +"</b>";
-            title = title.replaceAll(str,name);
+    public static String titleConversion(String title, List<String> list) {
+        for (String str : list) {
+            String name = "<b style=\"color: #fd8e3d\">" + str + "</b>";
+            title = title.replaceAll(str, name);
         }
         return title;
     }
 
     /* 实现关键字标记String */
-    public static String titleConversion(String title , String search){
-        String name = "<b style=\"color: #fd8e3d\">"+ search +"</b>";
-        title = title.replaceAll(search,name);
+    public static String titleConversion(String title, String search) {
+        String name = "<b style=\"color: #fd8e3d\">" + search + "</b>";
+        title = title.replaceAll(search, name);
         return title;
     }
 }
