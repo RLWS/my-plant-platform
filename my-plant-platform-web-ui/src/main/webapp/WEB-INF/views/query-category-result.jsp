@@ -37,7 +37,8 @@
                 <div class="menu-top-menu-container">
                     <ul id="menu-top-menu" class="clearfix">
                         <li><a href="index">首页</a></li>
-                        <li><a style="cursor: pointer" onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">发出提问</a></li>
+                        <li><a style="cursor: pointer"
+                               onclick="${user==null?"alert('您还没登录!')":"location.href='user_release'"}">发出提问</a></li>
                         <li><a href="question_no_answer">等我回答</a></li>
                         <c:if test="${user == null}">
                             <li><a href="login">登录</a></li>
@@ -46,7 +47,9 @@
                         <c:if test="${user != null}">
                             <li><a href="user">用户中心</a></li>
                         </c:if>
-                        <li><a style="cursor: pointer" onclick="${user.power==2?"location.href='user_talent'":"alert('您还不是达人用户，请加倍努力哦！')"}">达人中心</a></li>
+                        <li><a style="cursor: pointer"
+                               onclick="${user.power==2?"location.href='user_talent'":"alert('您还不是达人用户，请加倍努力哦！')"}">达人中心</a>
+                        </li>
                         <li><a href="more_recommendation">更多推荐</a></li>
                     </ul>
                 </div>
@@ -64,7 +67,8 @@
         <p class="search-tag-line">如果您有任何疑问,您可以在下方询问或查找您需要的内容!</p>
 
         <form id="search-form" class="search-form clearfix" method="get" action="search_result">
-            <input class="search-term required" type="text" id="searchTitle" name="searchTitle" placeholder="您可以在这里输入查找内容..."
+            <input class="search-term required" type="text" id="searchTitle" name="searchTitle"
+                   placeholder="您可以在这里输入查找内容..."
                    title="请点击右边'Search'按钮进行查找!"/>
             <input class="search-btn" type="submit" value="Search"/>
             <div id="search-error-container"></div>
@@ -81,26 +85,7 @@
             <div class="span8 page-content">
                 <div class="row separator  top-cats">
                     <div id="queBody">
-                    <c:forEach items="${questions}" var="item" end="6">
-                        <section class="span8">
-                            <h4 class="category"><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
-                            <div class=" rlws-like">
-                            <span class="article-meta">
-                                ${item.time}
-                                <%--<fmt:formatDate  pattern="yyyy-MM-dd HH:mm:ss" value="${item.time}"/>--%>
-                            </span>
-                                类型:<a href="single.html">${item.category.content}</a>
-                                提问者:<a href="#">${item.user.username}</a>
-                            </span>
-                                <span class="like-count" style="cursor: pointer">${item.praise}</span>
-                            </div>
-                            <div class="category-description">
-                                <p style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;">
-                                    ${item.content}
-                                </p>
-                            </div>
-                        </section>
-                    </c:forEach>
+                        <!-- 内容展示区域 -->
                     </div>
                     <ul class="pager">
                         <li><a id="first" style="cursor: pointer">首页</a></li>
@@ -133,8 +118,9 @@
                     <div class="quick-links-widget">
                         <h3 class="title">快速链接</h3>
                         <ul id="menu-quick-links" class="menu clearfix">
-                            <li><a href="index" >首页</a></li>
-                            <li><a style="cursor: pointer" ${user==null?"onclick=\"alert('您还未登录!')\"":"href='user'"}>用户中心</a></li>
+                            <li><a href="index">首页</a></li>
+                            <li><a style="cursor: pointer" ${user==null?"onclick=\"alert('您还未登录!')\"":"href='user'"}>用户中心</a>
+                            </li>
                             <li><a href="login">登录</a></li>
                             <li><a href="register">注册</a></li>
                         </ul>
@@ -246,68 +232,68 @@
         /* 初始化当前页面和尾页(分页) */
         var page_current_context = 1;
         var page_end_context = ${page_count == null ? 1 : page_count};
-        myAjax(1,7);
+        myAjax(1, 7);
 
         /* 点击下一页 */
         $("#next").click(function () {
-            if (page_current_context < page_end_context){
-                page_current_context ++;
-                myAjax(page_current_context,7)
+            if (page_current_context < page_end_context) {
+                page_current_context++;
+                myAjax(page_current_context, 7)
             } else {
                 alert("已经是最后一页了")
             }
         })
         /* 点击上一页 */
         $("#prev").click(function () {
-            if (page_current_context == 1){
+            if (page_current_context == 1) {
                 alert("已经是最前一页了")
             } else {
-                page_current_context --;
-                myAjax(page_current_context,7)
+                page_current_context--;
+                myAjax(page_current_context, 7)
             }
         })
 
         /* 返回首页 */
         $("#first").click(function () {
             page_current_context = 1;
-            myAjax(page_current_context,7);
+            myAjax(page_current_context, 7);
         })
 
         /* 前往尾页 */
         $("#end").click(function () {
             page_current_context = page_end_context;
-            myAjax(page_current_context,7);
+            myAjax(page_current_context, 7);
         })
 
         /* Ajax包装方法 */
-        function myAjax(page_current,page_size) {
+        function myAjax(page_current, page_size) {
             $.ajax(
                 {
-                    type:'get',
-                    url:'ajax/get_list_category_question_ajax',
-                    dataType:'json',
-                    data:{
+                    type: 'get',
+                    url: 'ajax/get_list_category_question_ajax',
+                    dataType: 'json',
+                    data: {
                         "category_id":${category_id==null?1:category_id},
-                        "page_current":page_current,
-                        "page_size":page_size
+                        "page_current": page_current,
+                        "page_size": page_size
                     },
-                    success:function (data) {
-                        var last=JSON.stringify(data);
+                    success: function (data) {
+                        var last = JSON.stringify(data);
                         var json = JSON.parse(last);
                         var question = json.questions;
                         var pageVo = json.pageVo;
                         console.log(json);
                         $("#queBody").empty();
-                        for (i in question){
+                        for (i in question) {
                             $("#queBody").append('<section class="span8">' +
-                                '                   <h4 class="category"><a href="/title_go_details?id='+question[i].id+'">'+question[i].title+'</a></h4>' +
+                                '                   <h4 class="category"><a href="title_go_details?id=' + question[i].id + '">' + question[i].title + '</a></h4>' +
                                 '                      <div class=" rlws-like">' +
-                                '                         <span class="article-meta">' +question[i].time+
+                                '                         <span class="article-meta">' + question[i].time +
                                 '                            </span>' +
-                                '                                类型:<a href="single.html">'+question[i].category.content+'</a>' +
-                                '                                提问者:<a href="#">'+question[i].user.username+'</a>' +
+                                '                                类型:<a href="single.html">' + question[i].category.content + '</a>' +
+                                '                                提问者:<a href="#">' + question[i].user.username + '</a>' +
                                 '                            </span>\n' +
-                                '                            <span class="like-count" style="cursor: pointer">'+question[i].praise+'</span>' +
+                                '                            <span class="like-count" style="cursor: pointer">' + question[i].praise + '</span>' +
                                 '                       </div>' +
                                 '                       <div class="category-description">' +
                                 '                             <p style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;">' +
@@ -316,9 +302,9 @@
                                 '                        </div>' +
                                 '                  </section>')
                         }
-                        page_end_context = Math.ceil(pageVo.page_count/pageVo.page_size);
-                        $("#all_count").html("总页数:"+page_end_context);
-                        $("#current").html("当前页:"+pageVo.page_current);
+                        page_end_context = Math.ceil(pageVo.page_count / pageVo.page_size);
+                        $("#all_count").html("总页数:" + page_end_context);
+                        $("#current").html("当前页:" + pageVo.page_current);
                     }
                 }
             )

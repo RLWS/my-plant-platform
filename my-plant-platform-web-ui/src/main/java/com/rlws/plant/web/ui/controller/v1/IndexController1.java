@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.rlws.plant.commons.dto.BaseResult;
 import com.rlws.plant.commons.utils.HttpclientUtils;
 import com.rlws.plant.commons.utils.SerializeUtils;
+import com.rlws.plant.web.ui.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -24,9 +25,9 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping(value = "v1")
-public class IndexController {
+public class IndexController1 extends BaseController {
 
-    @Value("${web.api.url}")
+    @Value("${web.api.url}"+"v1/")
     private String webApiUrl;
 
     /**
@@ -45,16 +46,7 @@ public class IndexController {
         BaseResult baseResult = (BaseResult) SerializeUtils.unSerialize(result);
         if (BaseResult.STATUS_SUCCESS == baseResult.getStatus()) {
             Map resultMap = (Map) baseResult.getData();
-            Iterator iteratorResult = resultMap.keySet().iterator();
-            while (iteratorResult.hasNext()) {
-                String key = iteratorResult.next().toString();
-                //视图页面
-                if ("pageView".equals(key)) {
-                    modelAndView.setViewName(resultMap.get(key).toString());
-                } else {
-                    modelAndView.addObject(key, resultMap.get(key));
-                }
-            }
+            modelAndView = this.mapAnalysis(modelAndView,resultMap);
         } else {
             modelAndView.setViewName("error");
             modelAndView.addObject("message",baseResult.getMessage());
@@ -73,14 +65,13 @@ public class IndexController {
      */
     @ResponseBody
     @RequestMapping(value = {"ajax/{matrix}"}, method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-    public String ajaxData(HttpServletRequest request, @RequestParam Map<String, String> param, @PathVariable("matrix") String path) {
+    public String ajaxData(HttpServletRequest request, @RequestParam Map<String, String> param, @PathVariable("matrix") String path) throws IOException, ClassNotFoundException {
         Cookie[] cookies = request.getCookies();
         System.out.println(cookies.toString());
         String result = HttpclientUtils.post(webApiUrl + path, "JSESSIONID=" + request.getSession().getId(), param);
-        System.out.println("ajax:::::" + result);
-        int status = JSON.parseObject(result).getInteger("status");
-        if (BaseResult.STATUS_SUCCESS == status) {
-            return JSON.parseObject(result).getString("data");
+        BaseResult baseResult = (BaseResult) SerializeUtils.unSerialize(result);
+        if (BaseResult.STATUS_SUCCESS == baseResult.getStatus()) {
+            return JSON.toJSONString(baseResult.getData());
         } else {
             return "";
         }

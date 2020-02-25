@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping
-public class CategoryController {
+@RequestMapping(value = "${web.rest.url.one}")
+public class CategoryController1 {
 
     @Autowired
     private CategoryService categoryService;
@@ -30,7 +30,9 @@ public class CategoryController {
     @Autowired
     private QuestionService questionService;
 
-    //前往user页面
+    /**
+     * 前往user页面
+     */
     @RequestMapping(value = "user", method = RequestMethod.POST)
     public String user() {
         return "user/user";
@@ -48,11 +50,11 @@ public class CategoryController {
      * 点击类别进行查询,跳转到对应类别的问题列表
      */
     @RequestMapping(value = "to_category_result", method = RequestMethod.POST)
-    public BaseResult gotoCategoryResult(int category_id, HttpServletRequest request) {
+    public String gotoCategoryResult(int category_id, HttpServletRequest request) throws IOException {
         HashMap<String, Object> map = new HashMap<>(10);
         map.put("category_id", category_id);
         map.put("pageView", "query-category-result");
-        return BaseResult.success(map);
+        return SerializeUtils.serialize(BaseResult.success(map));
     }
 
     /**

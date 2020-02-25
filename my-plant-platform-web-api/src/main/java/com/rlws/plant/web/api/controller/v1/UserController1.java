@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping
-public class UserController {
+@RequestMapping(value = "${web.rest.url.one}")
+public class UserController1 {
 
     @Autowired
     private UserService userService;

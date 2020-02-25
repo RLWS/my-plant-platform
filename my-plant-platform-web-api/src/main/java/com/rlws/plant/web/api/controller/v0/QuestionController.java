@@ -2,8 +2,8 @@ package com.rlws.plant.web.api.controller.v0;
 
 import com.alibaba.fastjson.JSON;
 import com.rlws.plant.commons.dto.BaseResult;
-import com.rlws.plant.commons.utils.SerializeUtils;
 import com.rlws.plant.domain.*;
+import com.rlws.plant.web.api.redis.RedisHandle;
 import com.rlws.plant.web.api.service.AnswerService;
 import com.rlws.plant.web.api.service.CategoryService;
 import com.rlws.plant.web.api.service.QuestionService;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "${web.rest.url}")
+@RequestMapping(value = "${web.rest.url.zero}")
 public class QuestionController {
 
     @Autowired
@@ -38,6 +38,9 @@ public class QuestionController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisHandle redisHandle;
+
     private int questionCount = 0;
 
     /**
@@ -48,23 +51,8 @@ public class QuestionController {
      */
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public BaseResult startUp(HttpServletRequest request) throws IOException {
-        HashMap<String, Object> map = new HashMap<>(10);
-        //定义全局作用域的申请值
-        ServletContext application = request.getSession().getServletContext();
-        if (application.getAttribute("BestAnswerCount") == null) {
-            application.setAttribute("BestAnswerCount", 99);
-        }
-        List<Question> questionDetails = questionService.selectNewTitle(6);
-        List<Question> questions = questionService.selectOneWeekLimitTitle(6);
-        List<Category> categories = categoryService.selectAllCategory(null);
-        //30tian
-        List<Question> questionsUrgent = questionService.selectUrgentQuestion(90);
-        map.put("questionsUrgent", questionsUrgent);
-        request.getSession().setAttribute("categories", categories);
-        map.put("questionDetails", questionDetails);
-        map.put("questions", questions);
-        map.put("pageView", "index");
-        return BaseResult.success(map);
+        redisHandle.stringSet("rlws","start success");
+        return BaseResult.success("start success");
     }
 
     /**
@@ -89,6 +77,7 @@ public class QuestionController {
         map.put("questionsUrgent", questionsUrgent);
         request.getSession().setAttribute("categories", categories);
         map.put("questionDetails", questionDetails);
+        map.put("categories", categories);
         map.put("questions", questions);
         map.put("pageView", "index");
         return BaseResult.success(map);
@@ -140,21 +129,27 @@ public class QuestionController {
         return BaseResult.success(map);
     }
 
-    //问题搜索功能实现
-    @RequestMapping(value = "search_result", method = RequestMethod.GET)
-    public String searchResult(String searchTitle, HttpServletRequest request) throws IOException {
+    /**
+     * 问题搜索功能实现
+     */
+    @RequestMapping(value = "search_result", method = RequestMethod.POST)
+    public BaseResult searchResult(String searchTitle, HttpServletRequest request) throws IOException {
+        HashMap<String, Object> map = new HashMap<>(10);
         List<Question> questions = questionService.userSearcherQuestion(searchTitle);
         questionCount = questions.size();
-        request.setAttribute("page_count", (int) Math.ceil((double) questionCount / 7));
         request.getSession().setAttribute("searchTitle", searchTitle);
-        request.setAttribute("questions", questions);
-        return "/query-result";
+        map.put("page_count", (int) Math.ceil((double) questionCount / 7));
+        map.put("questions", questions);
+        map.put("pageView", "query-result");
+        return BaseResult.success(map);
     }
 
-    //问题搜索功能实现Ajax异步请求
-    @RequestMapping(value = "search_result_ajax", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    /**
+     * 问题搜索功能实现Ajax异步请求
+     */
+    @RequestMapping(value = "search_result_ajax", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String ajaxSearchResult(String searchTitle, int page_current, int page_size) throws IOException {
+    public BaseResult ajaxSearchResult(String searchTitle, int page_current, int page_size) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         PageVo pageVo = new PageVo();
         pageVo.setPage_count(questionCount);
@@ -164,8 +159,7 @@ public class QuestionController {
         List<Question> questions = questionService.userSearcherQuestionAjax(pageVo, searchTitle);
         map.put("questions", questions);
         map.put("pageVo", pageVo);
-        String json = JSON.toJSONString(map);
-        return json;
+        return BaseResult.success(map);
     }
 
     //用户的所有问题获取Ajax异步请求

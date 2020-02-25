@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "${web.rest.url}")
+@RequestMapping(value = "${web.rest.url.zero}")
 public class UserController {
 
     @Autowired
@@ -74,9 +74,11 @@ public class UserController {
                     request.getSession().setAttribute("user", user);
                     List<Category> categories = categoryService.selectAllCategory(null);
                     request.getSession().setAttribute("categories", categories);
+                    map.put("user", user);
+                    map.put("categories", categories);
                     map.put("pageView", "index");
                 } else {
-                    request.setAttribute("login", "用户名或密码输入错误!");
+                    map.put("login", "用户名或密码输入错误!");
                     map.put("pageView", "login");
                 }
             }
@@ -92,7 +94,6 @@ public class UserController {
                 }
             }
         }
-        map.put("login", "用户名或密码输入错误!");
         return BaseResult.success(map);
     }
 

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "${web.rest.url}")
+@RequestMapping(value = "${web.rest.url.zero}")
 public class CategoryController {
 
     @Autowired

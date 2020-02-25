@@ -83,12 +83,10 @@
                     <div id="queBody">
                         <c:forEach items="${questions}" var="item" end="6">
                             <section class="span8">
-                                <h4 class="category"><a href="/title_go_details?id=${item.id}">${item.title}</a></h4>
-                                <div class=" rlws-like">
-                            <span class="article-meta"><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss"
-                                                                       value="${item.time}"/>
-                            </span>
-                                    类型:<a href="single.html">${item.category.content}</a>
+                                <h4 class="category"><a href="title_go_details?id=${item.id}">${item.title}</a></h4>
+                                <div class="rlws-like">
+                                    <span class="article-meta">${item.time}</span>
+                                    类型:<a href="to_category_result?category_id=${item.category_id}">${item.category.content}</a>
                                     提问者:<a href="#">${item.user.username}</a>
                                     </span>
                                     <span class="like-count" style="cursor: pointer">${item.praise}</span>
@@ -288,7 +286,7 @@
             $.ajax(
                 {
                     type: 'get',
-                    url: '/search_result_ajax',
+                    url: 'ajax/search_result_ajax',
                     dataType: 'json',
                     data: {
                         "searchTitle": "${searchTitle}",
@@ -304,11 +302,11 @@
                         $("#queBody").empty();
                         for (i in question) {
                             $("#queBody").append('<section class="span8">' +
-                                '                   <h4 class="category"><a href="/title_go_details?id=' + question[i].id + '">' + question[i].title + '</a></h4>' +
+                                '                   <h4 class="category"><a href="title_go_details?id=' + question[i].id + '">' + question[i].title + '</a></h4>' +
                                 '                      <div class=" rlws-like">' +
                                 '                         <span class="article-meta">' + question[i].time +
                                 '                            </span>' +
-                                '                                类型:<a href="single.html">' + question[i].category.content + '</a>' +
+                                '                                类型:<a href="to_category_result?category_id='+question[i].category_id+'">' + question[i].category.content + '</a>' +
                                 '                                提问者:<a href="#">' + question[i].user.username + '</a>' +
                                 '                            </span>\n' +
                                 '                            <span class="like-count" style="cursor: pointer">' + question[i].praise + '</span>' +

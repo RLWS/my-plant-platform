@@ -292,7 +292,7 @@
             max_conn: 10 	//点到点最大连接数
         }
         //调用
-        CanvasParticle(config);
+        //CanvasParticle(config);
     }
     $(function () {
         $(".demo2").bootstrapNews({
