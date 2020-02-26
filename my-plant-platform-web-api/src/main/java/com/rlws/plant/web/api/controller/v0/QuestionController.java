@@ -10,9 +10,9 @@ import com.rlws.plant.web.api.service.QuestionService;
 import com.rlws.plant.web.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CacheConfig(cacheNames = "product")
 @RestController
 @RequestMapping(value = "${web.rest.url.zero}")
 public class QuestionController {
@@ -51,7 +52,6 @@ public class QuestionController {
      */
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public BaseResult startUp(HttpServletRequest request) throws IOException {
-        redisHandle.stringSet("rlws","start success");
         return BaseResult.success("start success");
     }
 
@@ -63,6 +63,11 @@ public class QuestionController {
      */
     @RequestMapping(value = {"index", ""}, method = RequestMethod.POST)
     public BaseResult index(HttpServletRequest request) {
+        String result = redisHandle.stringGet("index");
+        if (result != null && !"".equals(result)) {
+            redisHandle.updateTime("index",5);
+            return BaseResult.success(result);
+        }
         HashMap<String, Object> map = new HashMap<>(10);
         //定义全局作用域的申请值
         ServletContext application = request.getSession().getServletContext();
@@ -80,6 +85,7 @@ public class QuestionController {
         map.put("categories", categories);
         map.put("questions", questions);
         map.put("pageView", "index");
+        redisHandle.stringSet("index", JSON.toJSONString(map), 5);
         return BaseResult.success(map);
     }
 
@@ -104,8 +110,10 @@ public class QuestionController {
      */
     @RequestMapping(value = "title_go_details", method = RequestMethod.POST)
     public BaseResult userClickTitle(HttpServletRequest request, @Autowired(required = true) int id) {
-        System.out.println("-----------------");
-        System.out.println(request.getSession().getId());
+        String result = redisHandle.stringGet("title_go_details" + id);
+        if (result != null && !"".equals(result)) {
+            return BaseResult.success(result);
+        }
         HashMap<String, Object> map = new HashMap<>(10);
         //获取问题详情内容
         Question question = questionService.selectTitleToDetails(id);
@@ -150,7 +158,7 @@ public class QuestionController {
     @RequestMapping(value = "search_result_ajax", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public BaseResult ajaxSearchResult(String searchTitle, int page_current, int page_size) throws IOException {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(10);
         PageVo pageVo = new PageVo();
         pageVo.setPage_count(questionCount);
         pageVo.setPage_current(page_current);

@@ -10,6 +10,7 @@ import redis.clients.jedis.JedisPool;
  */
 @Component
 public class RedisHandle {
+
     @Autowired
     private JedisPool jedisPool;
 
@@ -38,8 +39,37 @@ public class RedisHandle {
      * @return
      */
     public Long stringSet(String key, String value, int expire) {
-        String set = getJedis().set(key, value);
-        Long expire1 = getJedis().expire(key, expire);
-        return expire1;
+        getJedis().set(key, value);
+        return updateTime(key, expire);
+    }
+
+    /**
+     * 根据key获取value
+     *
+     * @param key 传入的key
+     * @return 返回获取到值
+     */
+    public String stringGet(String key) {
+        return getJedis().get(key);
+    }
+
+    /**
+     * 更新key的过期时间
+     *
+     * @param key    要更新的key值
+     * @param expire 要更新的时间
+     * @return
+     */
+    public Long updateTime(String key, int expire) {
+        return getJedis().expire(key, expire);
+    }
+
+    /**
+     * 判断改key是否存在缓存
+     * @param key 需要判断的key
+     * @return 是否存在缓存
+     */
+    public boolean exists(String key) {
+        return stringGet(key).trim().length() == 0;
     }
 }

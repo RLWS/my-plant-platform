@@ -36,6 +36,7 @@
         <mmseg4j.version>1.10.0</mmseg4j.version>
         <httpclient.version>4.5.6</httpclient.version>
         <jedis.version>3.0.1</jedis.version>
+        <spring.redis.version>2.2.4.RELEASE</spring.redis.version>
         <lombok.version>1.18.8</lombok.version>
     </properties>
 
@@ -190,6 +191,12 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring.redis.version}</version>
             </dependency>
             <!-- end jedis -->
 
