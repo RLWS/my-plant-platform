@@ -3,6 +3,7 @@ package com.rlws.plant.web.api.controller.v0;
 import com.alibaba.fastjson.JSON;
 import com.rlws.plant.commons.dto.BaseResult;
 import com.rlws.plant.domain.*;
+import com.rlws.plant.web.api.annotation.RedisCache;
 import com.rlws.plant.web.api.redis.RedisHandle;
 import com.rlws.plant.web.api.service.AnswerService;
 import com.rlws.plant.web.api.service.CategoryService;
@@ -61,6 +62,7 @@ public class QuestionController {
      * @param request
      * @return BaseResult
      */
+    @RedisCache
     @RequestMapping(value = {"index", ""}, method = RequestMethod.POST)
     public BaseResult index(HttpServletRequest request) {
         String result = redisHandle.stringGet("index");
