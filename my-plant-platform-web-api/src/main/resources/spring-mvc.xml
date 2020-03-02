@@ -55,13 +55,14 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
-    <bean id="methodCacheInterceptor" class="com.rlws.plant.web.api.redis.MethodCacheInterceptor"></bean>
+    <!--<bean id="methodCacheInterceptor" class="com.rlws.plant.web.api.redis.MethodCacheInterceptor"></bean>-->
 
-    <aop:config>
-        <!--切入点-->
-        <aop:pointcut id="methodPoint"
-                      expression="execution(* com.rlws.plant.web.api.controller.*.*(..)) "/><!--在该切入点使用自定义拦截器-->
-        <aop:advisor pointcut-ref="methodPoint" advice-ref="methodCacheInterceptor"/>
-    </aop:config>
+    <!--<aop:config>-->
+        <!--&lt;!&ndash;切入点&ndash;&gt;-->
+        <!--<aop:pointcut id="methodPoint"-->
+                      <!--expression="execution(* com.rlws.plant.web.api.controller.*.*(..)) "/>&lt;!&ndash;在该切入点使用自定义拦截器&ndash;&gt;-->
+        <!--<aop:advisor pointcut-ref="methodPoint" advice-ref="methodCacheInterceptor"/>-->
+    <!--</aop:config>-->
 </beans>

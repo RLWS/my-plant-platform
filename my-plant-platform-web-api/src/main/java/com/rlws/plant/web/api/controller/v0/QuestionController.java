@@ -4,20 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.rlws.plant.commons.dto.BaseResult;
 import com.rlws.plant.domain.*;
 import com.rlws.plant.web.api.annotation.RedisCache;
-import com.rlws.plant.web.api.redis.RedisHandle;
 import com.rlws.plant.web.api.service.AnswerService;
 import com.rlws.plant.web.api.service.CategoryService;
 import com.rlws.plant.web.api.service.QuestionService;
 import com.rlws.plant.web.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +36,6 @@ public class QuestionController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RedisHandle redisHandle;
-
     private int questionCount = 0;
 
     /**
@@ -64,12 +57,7 @@ public class QuestionController {
      */
     @RedisCache
     @RequestMapping(value = {"index", ""}, method = RequestMethod.POST)
-    public BaseResult index(HttpServletRequest request) {
-        String result = redisHandle.stringGet("index");
-        if (result != null && !"".equals(result)) {
-            redisHandle.updateTime("index",5);
-            return BaseResult.success(result);
-        }
+    public Object index(HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>(10);
         //定义全局作用域的申请值
         ServletContext application = request.getSession().getServletContext();
@@ -87,7 +75,6 @@ public class QuestionController {
         map.put("categories", categories);
         map.put("questions", questions);
         map.put("pageView", "index");
-        redisHandle.stringSet("index", JSON.toJSONString(map), 5);
         return BaseResult.success(map);
     }
 
@@ -110,12 +97,9 @@ public class QuestionController {
     /**
      * 点击问题标题跳转到问题详情
      */
+    @RedisCache
     @RequestMapping(value = "title_go_details", method = RequestMethod.POST)
-    public BaseResult userClickTitle(HttpServletRequest request, @Autowired(required = true) int id) {
-        String result = redisHandle.stringGet("title_go_details" + id);
-        if (result != null && !"".equals(result)) {
-            return BaseResult.success(result);
-        }
+    public Object userClickTitle(HttpServletRequest request, @Autowired(required = true) int id) {
         HashMap<String, Object> map = new HashMap<>(10);
         //获取问题详情内容
         Question question = questionService.selectTitleToDetails(id);
@@ -307,11 +291,11 @@ public class QuestionController {
     }
 
     //过滤前台传过来的时间格式
-    @InitBinder
-    public void InitBinder(ServletRequestDataBinder binder) {
-        //注册自定义的编辑器,后面的true代表的是 允许为null  false 不允许null
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
-    }
+//    @InitBinder
+//    public void InitBinder(ServletRequestDataBinder binder) {
+//        //注册自定义的编辑器,后面的true代表的是 允许为null  false 不允许null
+//        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));
+//    }
 
     //manager搜索查询用户信息
     @RequestMapping(value = "manager_select_Question", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
